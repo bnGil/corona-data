@@ -9,6 +9,66 @@
     <title>Corona Data</title>
   </head>
   <body>
+    <main>
+      <h1>Covid-19 World Data</h1>
+      <section class="menu-grid-container">
+        <div class="menu-grid">
+          <h2>Regions:</h2>
+          <div class="grid-btns">
+            <button class="btn" id="africa">Africa</button>
+            <button class="btn" id="americas">Americas</button>
+            <button class="btn" id="asia">Asia</button>
+            <button class="btn" id="europe">Europe</button>
+            <button class="btn" id="oceania">Oceania</button>
+            <button class="btn" id="world">World</button>
+          </div>
+          <div class="seperator"></div>
+          <h2>Country:</h2>
+          <select name="" id="select">
+            <option value="">Select Country</option>
+            <option value="">Select Country</option>
+            <option value="">Select Country</option>
+          </select>
+          <div class="seperator"></div>
+        </div>
+      </section>
+      <section class="country-stats-container">
+        <div class="country-stat">
+          Total cases
+          <div data-stat="totalCases">0</div>
+        </div>
+        <div class="country-stat">
+          New cases
+          <div data-stat="newCases">0</div>
+        </div>
+        <div class="country-stat">
+          Total deaths
+          <div data-stat="deaths">0</div>
+        </div>
+        <div class="country-stat">
+          New deaths
+          <div data-stat="newDeaths">0</div>
+        </div>
+        <div class="country-stat">
+          Total recovered
+          <div data-stat="recovered">0</div>
+        </div>
+        <div class="country-stat">
+          Critical
+          <div data-stat="critical">0</div>
+        </div>
+      </section>
+      <section class="graph-container">
+        <div class="tabs-container">
+          <div class="tab">Confirmed</div>
+          <div class="tab">Deaths</div>
+          <div class="tab">Recovered</div>
+          <div class="tab">Critical</div>
+        </div>
+        <div class="graph"></div>
+      </section>
+    </main>
+
     <script src="./scripts/app.js" type="module"></script>
   </body>
 </html>
