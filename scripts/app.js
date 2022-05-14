@@ -1,12 +1,16 @@
 import { createWorldObj } from "./worldObj.js";
-import { myChart, fetchDeath } from "./myChart.js";
+import { myChart } from "./myChart.js";
 const btns = document.querySelector(".grid-btns");
 const tabs = document.querySelector(".tabs-container");
 const select = document.getElementById("select");
+const body = document.querySelector("body");
+const mainTag = document.querySelector("main");
+const spinner = document.querySelector(".spinner");
+console.log(spinner);
 const countryDataArr = [
   ...document.querySelector(".country-stat-numbers").children,
 ];
-let regionsObj, worldObj;
+let regionsObj;
 
 const state = {
   selectedRegion: "africa",
@@ -14,8 +18,8 @@ const state = {
 };
 
 async function main() {
-  // [regionsObj, worldObj] = await getObjects();
   regionsObj = await createWorldObj();
+  removeSpinner();
   btns.addEventListener("click", regionHandler);
   tabs.addEventListener("click", tabHandler);
   select.addEventListener("change", selectHandler);
@@ -24,24 +28,6 @@ async function main() {
 }
 
 main();
-
-// async function getObjects() {
-//   if (
-//     localStorage.getItem("regionsDataObj") &&
-//     localStorage.getItem("worldDataObj")
-//   ) {
-//     console.log("the objects are already in storage =)");
-//     return [
-//       localStorage.getItem("regionsDataObj"),
-//       localStorage.getItem("worldDataObj"),
-//     ];
-//   } else {
-//     const [regions, world] = await createWorldObj();
-//     localStorage.setItem("regionsDataObj", JSON.stringify(regions));
-//     localStorage.setItem("worldDataObj", JSON.stringify(world));
-//     return [regions, world];
-//   }
-// }
 
 function regionHandler(e) {
   if (e.target === e.currentTarget) return; // If pressed on grid and not on buttons - return.
@@ -116,4 +102,10 @@ function updateCountryData(code, arrOfCountries) {
   ];
 
   countryDataArr.forEach((data, idx) => (data.innerText = arrOfData[idx]));
+}
+
+function removeSpinner() {
+  spinner.classList.add("hide");
+  body.classList.remove("bodySpinner");
+  mainTag.classList.add("display");
 }
