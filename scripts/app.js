@@ -2,7 +2,12 @@ import { createWorldObj } from "./worldObj.js";
 import { myChart, fetchDeath } from "./myChart.js";
 const btns = document.querySelector(".grid-btns");
 const tabs = document.querySelector(".tabs-container");
+const select = document.getElementById("select");
+const countryDataArr = [
+  ...document.querySelector(".country-stat-numbers").children,
+];
 let regionsObj, worldObj;
+
 const state = {
   selectedRegion: "africa",
   selectedTab: "confirmed",
@@ -10,11 +15,12 @@ const state = {
 
 async function main() {
   // [regionsObj, worldObj] = await getObjects();
-  [regionsObj, worldObj] = await createWorldObj();
-  console.log(regionsObj);
+  regionsObj = await createWorldObj();
   btns.addEventListener("click", regionHandler);
   tabs.addEventListener("click", tabHandler);
+  select.addEventListener("change", selectHandler);
   updateChart(regionsObj[state.selectedRegion], state.selectedTab);
+  updateCountrySelect(regionsObj[state.selectedRegion]);
 }
 
 main();
@@ -42,12 +48,9 @@ function regionHandler(e) {
   if (e.target.dataset.active === "true") return; // If already displayed - return
   activateBtn(e.target);
   state.selectedRegion = e.target.dataset.region;
-  if (state.selectedRegion === "world") {
-    updateChart(worldObj, state.selectedTab);
-  } else {
-    updateChart(regionsObj[state.selectedRegion], state.selectedTab);
-    //add region's country to dropdown
-  }
+  updateChart(regionsObj[state.selectedRegion], state.selectedTab);
+  updateCountrySelect(regionsObj[state.selectedRegion]);
+  countryDataArr.forEach((data) => (data.innerText = 0));
 }
 
 function activateBtn(btn) {
@@ -57,7 +60,6 @@ function activateBtn(btn) {
 }
 
 function updateChart(arrOfCountries, tab) {
-  console.log(tab);
   myChart.config.data.labels = arrOfCountries.map((country) => country.name);
   myChart.config.data.datasets[0].data = arrOfCountries.map(
     (country) => country.latest_data[tab]
@@ -71,10 +73,47 @@ function tabHandler(e) {
   if (e.target.dataset.active === "true") return; // If already displayed - return
   activateBtn(e.target);
   state.selectedTab = e.target.dataset.tab;
-  if (state.selectedRegion === "world") {
-    updateChart(worldObj, state.selectedTab);
-  } else {
-    updateChart(regionsObj[state.selectedRegion], state.selectedTab);
-    //add region's country to dropdown
-  }
+  updateChart(regionsObj[state.selectedRegion], state.selectedTab);
+}
+
+function updateCountrySelect(arrOfCountries) {
+  select.innerHTML = "";
+  const defOptions = document.createElement("option");
+  defOptions.value = "select";
+  defOptions.innerText = "Select Country";
+  select.appendChild(defOptions);
+  arrOfCountries.forEach((country) => {
+    const option = document.createElement("option");
+    option.value = country.code;
+    option.innerText = country.name;
+    select.appendChild(option);
+  });
+}
+
+function selectHandler(e) {
+  const countryCode = select.options[select.selectedIndex].value;
+  updateCountryData(countryCode);
+}
+
+function updateCountryData(code, arrOfCountries) {
+  const selectedCountry = regionsObj.world.find(
+    (country) => country.code === code
+  );
+  const newCases = selectedCountry.today.confirmed;
+  const totalDeaths = selectedCountry.latest_data.deaths;
+  const newDeaths = selectedCountry.today.deaths;
+  const recovered = selectedCountry.latest_data.recovered;
+  const critical = selectedCountry.latest_data.critical;
+  const totalCases = totalDeaths + critical + recovered;
+
+  const arrOfData = [
+    totalCases,
+    newCases,
+    totalDeaths,
+    newDeaths,
+    recovered,
+    critical,
+  ];
+
+  countryDataArr.forEach((data, idx) => (data.innerText = arrOfData[idx]));
 }

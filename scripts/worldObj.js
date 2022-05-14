@@ -63,16 +63,14 @@ export async function createWorldObj() {
     const regionsData = await Promise.all(
       regions.map((region) => getRegionData(region, worldCorona))
     );
-    return [
-      {
-        africa: regionsData[0],
-        americas: regionsData[1],
-        asia: regionsData[2],
-        europe: regionsData[3],
-        africa: regionsData[4],
-      },
-      worldCorona,
-    ];
+    return {
+      africa: regionsData[0],
+      americas: regionsData[1],
+      asia: regionsData[2],
+      europe: regionsData[3],
+      africa: regionsData[4],
+      world: worldCorona,
+    };
   } catch (e) {
     console.log(e);
   }
