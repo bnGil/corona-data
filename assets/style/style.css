@@ -151,6 +151,12 @@ h2 {
   position: relative;
 }
 
+.turn-phone {
+  display: none;
+  width: 80%;
+  height: auto;
+}
+
 /* -------- Spinner ------------ */
 
 .spinner {
@@ -211,8 +217,6 @@ h2 {
 @media (max-width: 768px) {
   .menu-grid {
     width: 80%;
-  }
-  .menu-grid {
     display: flex;
     flex-direction: column;
   }

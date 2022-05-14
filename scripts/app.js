@@ -6,7 +6,6 @@ const select = document.getElementById("select");
 const body = document.querySelector("body");
 const mainTag = document.querySelector("main");
 const spinner = document.querySelector(".spinner");
-console.log(spinner);
 const countryDataArr = [
   ...document.querySelector(".country-stat-numbers").children,
 ];
@@ -50,7 +49,10 @@ function updateChart(arrOfCountries, tab) {
   myChart.config.data.datasets[0].data = arrOfCountries.map(
     (country) => country.latest_data[tab]
   );
-  myChart.config.data.datasets[0].label = state.selectedRegion;
+  const str = state.selectedRegion;
+  const label = str.charAt(0).toUpperCase() + str.slice(1);
+  console.log(label);
+  myChart.config.data.datasets[0].label = label;
   myChart.update();
 }
 
