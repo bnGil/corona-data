@@ -1,1 +1,1 @@
-# corona-data
+# covid19-statistics
